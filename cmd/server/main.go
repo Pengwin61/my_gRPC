@@ -8,6 +8,7 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 const (
@@ -17,6 +18,9 @@ const (
 func main() {
 	s := grpc.NewServer()
 	srv := &adder.GRPCServer{}
+
+	// Разрешаем клиентам получить список методов
+	reflection.Register(s)
 
 	api.RegisterAdderServer(s, srv)
 
