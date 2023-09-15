@@ -1,20 +1,51 @@
 package adder
 
 import (
-	"context"
-	"my_grpc/pkg/api"
+	"fmt"
+	"my_grpc/pkg/chat"
 )
 
-type GRPCServer struct{}
+type ChatServer struct{}
 
-func (s *GRPCServer) Add(ctx context.Context, req *api.AddRequest) (*api.AddResponse, error) {
-	return &api.AddResponse{Result: req.GetX() + req.GetY()}, nil
-}
+func (s *ChatServer) SendMessage(stream chat.ChatService_SendMessageServer) error {
+	res := "are you alive?\n"
 
-func (s *GRPCServer) Sub(ctx context.Context, reqS *api.SubRequest) (*api.SubResponse, error) {
-	return &api.SubResponse{Result: reqS.GetA() - reqS.GetB()}, nil
-}
+	for {
+		// Прочитайте сообщение от клиента
+		req, err := stream.Recv()
+		if err != nil {
+			return err
+		}
+		fmt.Println(req.Message)
 
-func (s *GRPCServer) Multi(ctx context.Context, req *api.AddRequest) (*api.AddResponse, error) {
-	return &api.AddResponse{Result: req.GetX() * req.GetY()}, nil
+		switch req.Message {
+		case "I`m fine":
+			resp := &chat.MessageResponse{
+				Sender:  "1",
+				Message: res,
+			}
+			// Отправьте ответное сообщение клиенту
+			if err := stream.Send(resp); err != nil {
+				return err
+			}
+		case "true":
+			fmt.Println("case: ", req.Message)
+
+			// case "":
+			// 	fmt.Println("case: Empty")
+			// default:
+			// 	fmt.Println("case default")
+		}
+
+		// Создайте ответное сообщение
+		resp := &chat.MessageResponse{
+			Sender:  req.Sender,
+			Message: "Execute",
+		}
+
+		// Отправьте ответное сообщение клиенту
+		if err := stream.Send(resp); err != nil {
+			return err
+		}
+	}
 }
