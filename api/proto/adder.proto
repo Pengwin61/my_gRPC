@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "./pkg/apiT";
+
+package apiT;
+
+service Adder{
+    rpc Add(AddRequest) returns (AddResponse){}
+    rpc Sub(SubRequest) returns (SubResponse){}
+    rpc Multi(AddRequest) returns (AddResponse){}
+
+}
+
+message AddRequest{
+    int32 x = 1;
+    int32 y = 2;
+}
+
+message AddResponse{
+    int32 result = 1;
+}
+
+message SubRequest{
+    int32 a = 1;
+    int32 b = 2;
+}
+
+message SubResponse{
+    int32 result = 1 ;
+}
