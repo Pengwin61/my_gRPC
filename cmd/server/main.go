@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"my_grpc/pkg/adder"
-	"my_grpc/pkg/apiT"
+	"my_grpc/pkg/api"
 
 	"net"
 
@@ -18,7 +18,7 @@ func main() {
 	s := grpc.NewServer()
 	srv := &adder.GRPCServer{}
 
-	apiT.RegisterAdderServer(s, srv)
+	api.RegisterAdderServer(s, srv)
 
 	lis, err := net.Listen("tcp", grpcPort)
 	if err != nil {

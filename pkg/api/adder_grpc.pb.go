@@ -4,7 +4,7 @@
 // - protoc             v4.24.3
 // source: api/proto/adder.proto
 
-package apiT
+package api
 
 import (
 	context "context"
@@ -37,7 +37,7 @@ func NewAdderClient(cc grpc.ClientConnInterface) AdderClient {
 
 func (c *adderClient) Add(ctx context.Context, in *AddRequest, opts ...grpc.CallOption) (*AddResponse, error) {
 	out := new(AddResponse)
-	err := c.cc.Invoke(ctx, "/apiT.Adder/Add", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.Adder/Add", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (c *adderClient) Add(ctx context.Context, in *AddRequest, opts ...grpc.Call
 
 func (c *adderClient) Sub(ctx context.Context, in *SubRequest, opts ...grpc.CallOption) (*SubResponse, error) {
 	out := new(SubResponse)
-	err := c.cc.Invoke(ctx, "/apiT.Adder/Sub", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.Adder/Sub", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (c *adderClient) Sub(ctx context.Context, in *SubRequest, opts ...grpc.Call
 
 func (c *adderClient) Multi(ctx context.Context, in *AddRequest, opts ...grpc.CallOption) (*AddResponse, error) {
 	out := new(AddResponse)
-	err := c.cc.Invoke(ctx, "/apiT.Adder/Multi", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.Adder/Multi", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -106,7 +106,7 @@ func _Adder_Add_Handler(srv interface{}, ctx context.Context, dec func(interface
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/apiT.Adder/Add",
+		FullMethod: "/api.Adder/Add",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdderServer).Add(ctx, req.(*AddRequest))
@@ -124,7 +124,7 @@ func _Adder_Sub_Handler(srv interface{}, ctx context.Context, dec func(interface
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/apiT.Adder/Sub",
+		FullMethod: "/api.Adder/Sub",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdderServer).Sub(ctx, req.(*SubRequest))
@@ -142,7 +142,7 @@ func _Adder_Multi_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/apiT.Adder/Multi",
+		FullMethod: "/api.Adder/Multi",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdderServer).Multi(ctx, req.(*AddRequest))
@@ -154,7 +154,7 @@ func _Adder_Multi_Handler(srv interface{}, ctx context.Context, dec func(interfa
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Adder_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "apiT.Adder",
+	ServiceName: "api.Adder",
 	HandlerType: (*AdderServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

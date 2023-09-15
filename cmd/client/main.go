@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"my_grpc/pkg/apiT"
+	"my_grpc/pkg/api"
 
 	"google.golang.org/grpc"
 )
@@ -16,9 +16,9 @@ func main() {
 		fmt.Println(err)
 	}
 
-	c := apiT.NewAdderClient(conn)
+	c := api.NewAdderClient(conn)
 
-	res, err := c.Add(context.Background(), &apiT.AddRequest{X: int32(10), Y: int32(10)})
+	res, err := c.Add(context.Background(), &api.AddRequest{X: int32(10), Y: int32(10)})
 	if err != nil {
 		fmt.Println(err)
 	}

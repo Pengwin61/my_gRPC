@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option go_package = "./pkg/apiT";
+option go_package = "./pkg/api";
 
-package apiT;
+package api;
 
 service Adder{
     rpc Add(AddRequest) returns (AddResponse){}
