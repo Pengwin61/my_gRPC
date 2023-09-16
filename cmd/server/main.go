@@ -1,6 +1,6 @@
 package main
 
-import connections "my_grpc/cmd/client/connection"
+import connections "my_grpc/internal/connection"
 
 func main() {
 

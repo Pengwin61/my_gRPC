@@ -1,8 +1,8 @@
 package main
 
 import (
-	connections "my_grpc/cmd/client/connection"
-	"my_grpc/pkg/utils"
+	connections "my_grpc/internal/connection"
+	utils "my_grpc/internal/utils"
 	"time"
 )
 
