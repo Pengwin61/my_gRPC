@@ -11,8 +11,7 @@ import (
 )
 
 type Conn struct {
-	Conn *grpc.ClientConn
-	// Client chat.ChatServiceClient
+	Conn   *grpc.ClientConn
 	Stream chat.ChatService_SendMessageClient
 }
 
@@ -36,7 +35,7 @@ func InitClientGrpc() *Conn {
 	return &Conn{Conn: conn, Stream: stream}
 }
 
-func (c *Conn) SendMessages(to, message string) {
+func (c *Conn) SendMsg(to, message string) {
 
 	req := &chat.MessageRequest{
 		Sender:  to,
@@ -49,7 +48,7 @@ func (c *Conn) SendMessages(to, message string) {
 
 }
 
-func (c *Conn) ReadMessages() string {
+func (c *Conn) ReadMsg() string {
 	// Прочитайте ответное сообщение от сервера
 	resp, err := c.Stream.Recv()
 	if err != nil {

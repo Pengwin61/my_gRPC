@@ -8,7 +8,7 @@ import (
 type ChatServer struct{}
 
 func (s *ChatServer) SendMessage(stream chat.ChatService_SendMessageServer) error {
-	res := "are you alive?\n"
+	isAlive := "are you alive?\n"
 
 	for {
 		// Прочитайте сообщение от клиента
@@ -19,10 +19,11 @@ func (s *ChatServer) SendMessage(stream chat.ChatService_SendMessageServer) erro
 		fmt.Println(req.Message)
 
 		switch req.Message {
-		case "I`m fine":
+
+		case "Hello":
 			resp := &chat.MessageResponse{
-				Sender:  "1",
-				Message: res,
+				Sender:  "server",
+				Message: isAlive,
 			}
 			// Отправьте ответное сообщение клиенту
 			if err := stream.Send(resp); err != nil {
@@ -31,10 +32,6 @@ func (s *ChatServer) SendMessage(stream chat.ChatService_SendMessageServer) erro
 		case "true":
 			fmt.Println("case: ", req.Message)
 
-			// case "":
-			// 	fmt.Println("case: Empty")
-			// default:
-			// 	fmt.Println("case default")
 		}
 
 		// Создайте ответное сообщение

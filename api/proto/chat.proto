@@ -16,4 +16,3 @@ message MessageResponse {
   string sender = 1;
   string message = 2;
 }
-
