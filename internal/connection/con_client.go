@@ -11,8 +11,9 @@ import (
 )
 
 type Conn struct {
-	Conn   *grpc.ClientConn
-	Stream chat.ChatService_SendMessageClient
+	Conn    *grpc.ClientConn
+	Stream  chat.ChatService_SendMessageClient
+	StreamH chat.ChatService_HelloClient
 }
 
 func InitClientGrpc() *Conn {
@@ -31,8 +32,9 @@ func InitClientGrpc() *Conn {
 	if err != nil {
 		log.Fatalf("failed to send message: %v", err)
 	}
+	streamH, _ := client.Hello(context.Background())
 
-	return &Conn{Conn: conn, Stream: stream}
+	return &Conn{Conn: conn, Stream: stream, StreamH: streamH}
 }
 
 func (c *Conn) SendMsg(to, message string) {
@@ -43,6 +45,19 @@ func (c *Conn) SendMsg(to, message string) {
 	}
 
 	if err := c.Stream.Send(req); err != nil {
+		log.Fatalf("failed to send message: %v", err)
+	}
+
+}
+
+func (c *Conn) SendHelloSrv(name string) {
+
+	req := &chat.MsgHelloRequest{
+		Name:    name,
+		Message: "Hello from Client",
+	}
+
+	if err := c.StreamH.Send(req); err != nil {
 		log.Fatalf("failed to send message: %v", err)
 	}
 

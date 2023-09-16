@@ -17,6 +17,7 @@ func main() {
 	initMessage := true
 
 	for {
+		c.SendHelloSrv("macbook-air")
 
 		// Первое сообщение серверу Init Message
 		if initMessage {

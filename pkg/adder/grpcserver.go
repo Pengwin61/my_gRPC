@@ -29,15 +29,35 @@ func (s *ChatServer) SendMessage(stream chat.ChatService_SendMessageServer) erro
 			if err := stream.Send(resp); err != nil {
 				return err
 			}
-		case "true":
-			fmt.Println("case: ", req.Message)
 
 		}
 
-		// Создайте ответное сообщение
+		// Создайте ответное сообщение клиенту
 		resp := &chat.MessageResponse{
 			Sender:  req.Sender,
 			Message: "Execute",
+		}
+
+		// Отправьте ответное сообщение клиенту
+		if err := stream.Send(resp); err != nil {
+			return err
+		}
+	}
+}
+
+func (s *ChatServer) Hello(stream chat.ChatService_HelloServer) error {
+	for {
+		// Прочитайте сообщение от клиента
+		req, err := stream.Recv()
+		if err != nil {
+			return err
+		}
+		fmt.Println(req.Message, req.Name)
+
+		// Создайте ответное сообщение клиенту
+		resp := &chat.MsgHelloResponse{
+			Name:    req.Name,
+			Message: "Pong",
 		}
 
 		// Отправьте ответное сообщение клиенту
