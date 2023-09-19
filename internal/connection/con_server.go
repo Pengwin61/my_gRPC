@@ -1,13 +1,13 @@
 package connections
 
 import (
+	"fmt"
 	"log"
 	"my_grpc/pkg/adder"
 	"my_grpc/pkg/chat"
 	"net"
 
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 )
 
 const (
@@ -23,7 +23,7 @@ func InitServerGrpc() *Server {
 	server := grpc.NewServer()
 
 	// Разрешаем клиентам получить список методов
-	reflection.Register(server)
+	// reflection.Register(server)
 
 	// Зарегистрируйте реализацию сервиса
 	chat.RegisterChatServiceServer(server, &adder.ChatServer{})
@@ -38,6 +38,7 @@ func InitServerGrpc() *Server {
 }
 
 func (s *Server) Run() {
+	fmt.Println("gRPC server started...")
 
 	// Запустите gRPC сервер
 	if err := s.Srv.Serve(s.Listener); err != nil {

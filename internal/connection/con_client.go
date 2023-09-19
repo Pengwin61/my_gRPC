@@ -11,9 +11,8 @@ import (
 )
 
 type Conn struct {
-	Conn    *grpc.ClientConn
-	Stream  chat.ChatService_SendMessageClient
-	StreamH chat.ChatService_HelloClient
+	Conn       *grpc.ClientConn
+	MainStream chat.ChatService_SendMessageClient
 }
 
 func InitClientGrpc() *Conn {
@@ -32,9 +31,9 @@ func InitClientGrpc() *Conn {
 	if err != nil {
 		log.Fatalf("failed to send message: %v", err)
 	}
-	streamH, _ := client.Hello(context.Background())
+	// streamH, _ := client.Hello(context.Background())
 
-	return &Conn{Conn: conn, Stream: stream, StreamH: streamH}
+	return &Conn{Conn: conn, MainStream: stream}
 }
 
 func (c *Conn) SendMsg(to, message string) {
@@ -44,20 +43,7 @@ func (c *Conn) SendMsg(to, message string) {
 		Message: message,
 	}
 
-	if err := c.Stream.Send(req); err != nil {
-		log.Fatalf("failed to send message: %v", err)
-	}
-
-}
-
-func (c *Conn) SendHelloSrv(name string) {
-
-	req := &chat.MsgHelloRequest{
-		Name:    name,
-		Message: "Hello from Client",
-	}
-
-	if err := c.StreamH.Send(req); err != nil {
+	if err := c.MainStream.Send(req); err != nil {
 		log.Fatalf("failed to send message: %v", err)
 	}
 
@@ -65,13 +51,13 @@ func (c *Conn) SendHelloSrv(name string) {
 
 func (c *Conn) ReadMsg() string {
 	// Прочитайте ответное сообщение от сервера
-	resp, err := c.Stream.Recv()
+	resp, err := c.MainStream.Recv()
 	if err != nil {
 		log.Fatalf("failed to receive message: %v", err)
 	}
 
 	// fmt.Printf("Received response: %s\n", resp.Message)
-	fmt.Printf("Ответ от сервера: %s\n", resp.Message)
+	fmt.Printf("Сообщение от сервера: %s\n", resp.Message)
 
 	return resp.Message
 }

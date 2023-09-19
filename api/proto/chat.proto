@@ -5,18 +5,9 @@ package chat;
 
 service ChatService {
   rpc SendMessage(stream MessageRequest) returns (stream MessageResponse) {}
-  rpc Hello(stream MsgHelloRequest) returns (stream MsgHelloResponse) {}
+
 }
 
-message MsgHelloRequest {
-  string name = 1;
-  string message = 2;
-}
-
-message MsgHelloResponse {
-  string name = 1;
-  string message = 2;
-}
 
 message MessageRequest {
   string sender = 1;
