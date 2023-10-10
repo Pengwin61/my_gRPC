@@ -56,7 +56,6 @@ func (c *Conn) ReadMsg() string {
 		log.Fatalf("failed to receive message: %v", err)
 	}
 
-	// fmt.Printf("Received response: %s\n", resp.Message)
 	fmt.Printf("Сообщение от сервера: %s\n", resp.Message)
 
 	return resp.Message
